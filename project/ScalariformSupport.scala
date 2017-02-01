@@ -1,4 +1,4 @@
-import sbt._
+/*import sbt._
 
 import com.typesafe.sbt.SbtScalariform
 import com.typesafe.sbt.SbtScalariform.ScalariformKeys
@@ -17,4 +17,4 @@ object ScalariformSupport {
       .setPreference(AlignSingleLineCaseStatements, true)
       .setPreference(DoubleIndentClassDeclaration, true)
 
-}
+}*/

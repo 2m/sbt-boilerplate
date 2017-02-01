@@ -10,6 +10,7 @@ import java.io.FileInputStream
 
 import sbt._
 import Keys._
+import syntax._
 import sbt.plugins.JvmPlugin
 
 object BoilerplatePlugin extends AutoPlugin {
@@ -37,7 +38,7 @@ object BoilerplatePlugin extends AutoPlugin {
       watchSources in Defaults.ConfigGlobal ++= ((boilerplateSource.value ** inputFilter) --- (boilerplateSource.value ** excludeFilter.value ** inputFilter)).get,
       boilerplateGenerate := generateFromTemplates(streams.value, boilerplateSignature.value, boilerplateSource.value, sourceManaged.value),
       mappings in packageSrc ++= managedSources.value pair (Path.relativeTo(sourceManaged.value) | Path.flat),
-      sourceGenerators <+= boilerplateGenerate)
+      sourceGenerators += boilerplateGenerate.taskValue)
   }
 
   def generateFromTemplates(streams: TaskStreams, signature: String, sourceDir: File, targetDir: File): Seq[File] = {
@@ -53,7 +54,7 @@ object BoilerplatePlugin extends AutoPlugin {
       new File(f.getParent, newName)
     }
 
-    val mapping = (files pair rebase(sourceDir, targetDir)).map {
+    val mapping = (files pair Path.rebase(sourceDir, targetDir)).map {
       case (orig, target) ⇒ (orig, changeExtension(target))
     }
 
@@ -87,7 +88,7 @@ object BoilerplatePlugin extends AutoPlugin {
     }
 
     val toRemove =
-      targetDir.***
+      targetDir.allPaths
         // apply filters with increasing effort
         .filter(f ⇒ f.exists && f.isFile)
         .filter(_.length >= signature.length)

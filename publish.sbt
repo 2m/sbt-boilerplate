@@ -1,9 +1,9 @@
 publishMavenStyle := false
 
-bintraySettings
+//bintraySettings
 
-bintray.Keys.repository := "sbt-plugins"
+//bintray.Keys.repository := "sbt-plugins"
 
-bintray.Keys.bintrayOrganization in bintray.Keys.bintray := None
+//bintray.Keys.bintrayOrganization in bintray.Keys.bintray := None
 
-useGpg := true
+//useGpg := true
